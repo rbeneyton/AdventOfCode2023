@@ -23,3 +23,9 @@ cargo run --release -- --day <day> benchmark --number <number> --current
 basic line parsing + minimization
 
 [Code](./src/solutions/day01.rs)
+
+## [Day 02: Cube Conundrum](https://adventofcode.com/2023/day/2)
+
+parsing as usual
+
+[Code](./src/solutions/day02.rs)
