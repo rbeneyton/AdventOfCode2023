@@ -29,3 +29,9 @@ basic line parsing + minimization
 parsing as usual
 
 [Code](./src/solutions/day02.rs)
+
+## [Day 03: Gear Ratios](https://adventofcode.com/2023/day/3)
+
+simple loops
+
+[Code](./src/solutions/day03.rs)
