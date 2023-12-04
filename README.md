@@ -35,3 +35,9 @@ parsing as usual
 simple loops
 
 [Code](./src/solutions/day03.rs)
+
+## [Day 04: Scratchcards](https://adventofcode.com/2023/day/4)
+
+propagate counters
+
+[Code](./src/solutions/day04.rs)
