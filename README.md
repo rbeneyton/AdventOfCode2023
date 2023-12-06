@@ -41,3 +41,9 @@ simple loops
 propagate counters
 
 [Code](./src/solutions/day04.rs)
+
+## [Day 05: If You Give A Seed A Fertilizer](https://adventofcode.com/2023/day/5)
+
+ranges…
+
+[Code](./src/solutions/day05.rs)
