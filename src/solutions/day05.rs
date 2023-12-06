@@ -94,6 +94,20 @@ pub fn solve(part: u8, input: &'static str) -> Result<Solution, anyhow::Error> {
                             }
                         }
                     }
+                    // split at 'end'
+                    dbg!(&stuff, length);
+                    if let Some((src, (dst, range))) = map.range(..=end).rev().next() {
+                        let (src, (dst, range)) = (*src, (*dst, *range));
+                        if src != end {
+                            debug_assert!(src < end);
+                            let off = end - src;
+                            if range > off {
+                                map.get_mut(&src).unwrap().1 = off;
+                                map.insert(end, (dst + off, range - off));
+                                dbg!(&map);
+                            }
+                        }
+                    }
 
                     for (mut src, (mut dst, mut range)) in map.range(stuff..end) {
                         dbg!(src, range, dst);

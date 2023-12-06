@@ -47,3 +47,9 @@ propagate counters
 ranges…
 
 [Code](./src/solutions/day05.rs)
+
+## [Day 06: Wait For It](https://adventofcode.com/2023/day/6)
+
+trivial
+
+[Code](./src/solutions/day06.rs)
