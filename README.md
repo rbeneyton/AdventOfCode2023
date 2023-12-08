@@ -53,3 +53,9 @@ ranges…
 trivial
 
 [Code](./src/solutions/day06.rs)
+
+## [Day 07: Camel Cards](https://adventofcode.com/2023/day/7)
+
+ordering
+
+[Code](./src/solutions/day07.rs)
