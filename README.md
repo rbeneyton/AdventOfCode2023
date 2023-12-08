@@ -59,3 +59,9 @@ trivial
 ordering
 
 [Code](./src/solutions/day07.rs)
+
+## [Day 08: Haunted Wasteland](https://adventofcode.com/2023/day/8)
+
+hidden cycles in the data, hard to spot
+
+[Code](./src/solutions/day08.rs)
