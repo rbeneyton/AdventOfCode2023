@@ -65,3 +65,9 @@ ordering
 hidden cycles in the data, hard to spot
 
 [Code](./src/solutions/day08.rs)
+
+## [Day 09: Mirage Maintenance](https://adventofcode.com/2023/day/9)
+
+basic accumulation (maybe optimization on memory is quite overkill here)
+
+[Code](./src/solutions/day09.rs)
