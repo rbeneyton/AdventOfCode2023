@@ -78,3 +78,10 @@ basic path for part 1.
 inner tile scan using 3x3 ones, so bfs can go between adjacent pipes without crossing real pipes.
 
 [Code](./src/solutions/day10.rs)
+
+## [Day 11: Cosmic Expansion](https://adventofcode.com/2023/day/11)
+
+no grid as this isn't required, simple coordinates basic stuffs.
+tests done manually, as there is an expand scale parameter.
+
+[Code](./src/solutions/day11.rs)
