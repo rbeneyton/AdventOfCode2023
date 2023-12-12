@@ -71,3 +71,10 @@ hidden cycles in the data, hard to spot
 basic accumulation (maybe optimization on memory is quite overkill here)
 
 [Code](./src/solutions/day09.rs)
+
+## [Day 10: Pipe Maze](https://adventofcode.com/2023/day/10)
+
+basic path for part 1.
+inner tile scan using 3x3 ones, so bfs can go between adjacent pipes without crossing real pipes.
+
+[Code](./src/solutions/day10.rs)
