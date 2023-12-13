@@ -85,3 +85,8 @@ no grid as this isn't required, simple coordinates basic stuffs.
 tests done manually, as there is an expand scale parameter.
 
 [Code](./src/solutions/day11.rs)
+
+## [Day 12: Hot Springs](https://adventofcode.com/2023/day/12)
+
+
+[Code](./src/solutions/day12.rs)
