@@ -90,3 +90,9 @@ tests done manually, as there is an expand scale parameter.
 
 
 [Code](./src/solutions/day12.rs)
+
+## [Day 13: Point of Incidence](https://adventofcode.com/2023/day/13)
+
+simple compare string operations
+
+[Code](./src/solutions/day13.rs)
