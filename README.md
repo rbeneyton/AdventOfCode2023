@@ -96,3 +96,11 @@ tests done manually, as there is an expand scale parameter.
 simple compare string operations
 
 [Code](./src/solutions/day13.rs)
+
+## [Day 14: Parabolic Reflector Dish](https://adventofcode.com/2023/day/14)
+
+part1: simple direct computation
+part2: by design there will be cycles, so we do "some" turns and automatically scan for cycles in
+order to deduce results.
+
+[Code](./src/solutions/day14.rs)
