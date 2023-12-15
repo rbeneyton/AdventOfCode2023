@@ -104,3 +104,9 @@ part2: by design there will be cycles, so we do "some" turns and automatically s
 order to deduce results.
 
 [Code](./src/solutions/day14.rs)
+
+## [Day 15: Lens Library](https://adventofcode.com/2023/day/15)
+
+simple hashmap, as suggested by text.
+
+[Code](./src/solutions/day15.rs)
