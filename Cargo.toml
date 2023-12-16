@@ -19,6 +19,7 @@ rustc-hash = "*"
 partial_sort = "*"
 anyhow = "*"
 num = "*"
+enumset = "*"
 
 [dev-dependencies]
 criterion = "0.4"

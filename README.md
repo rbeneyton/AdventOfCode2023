@@ -110,3 +110,10 @@ order to deduce results.
 simple hashmap, as suggested by text.
 
 [Code](./src/solutions/day15.rs)
+
+## [Day 16: The Floor Will Be Lava](https://adventofcode.com/2023/day/16)
+
+basic path computation with position caching to avoid double path.
+use of enumset crate for easy bitset.
+
+[Code](./src/solutions/day16.rs)
