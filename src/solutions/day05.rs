@@ -22,7 +22,15 @@ pub fn solve(part: u8, input: &'static str) -> Result<Solution, anyhow::Error> {
 
     assert_eq!(lines.next().context("blank line")?.len(), 0);
 
-    // vec of key: src value: range, dst
+    // {{{ parsing into vec of (key: src, value: range)
+
+    #[derive(Clone, Copy)]
+    struct Range {
+        start: i64,
+        end: i64, // non inclusive
+        dst: i64,
+    }
+
     let mut maps = Vec::new();
     for line in lines {
         if line.contains("map:") {
@@ -35,31 +43,100 @@ pub fn solve(part: u8, input: &'static str) -> Result<Solution, anyhow::Error> {
 
         let map = maps.last_mut().context("empty maps")?;
 
-        let (dst, src, range) = line
+        let (dst, start, range) = line
             .split(' ')
             .map(|x| x.parse::<i64>().expect("Map::new parse error"))
             .collect_tuple()
             .expect("no 3 token");
-        map.insert(src, (dst, range));
-
-        // check non-overlapping map
-        // if let Some((prev, (prev_range, _))) = map.range(..src).rev().next() {
-        //     debug_assert!(prev + prev_range > src, "overlapping map: prev:{prev}+{prev_range} on src:{src}!");
-        // }
-        // debug_assert_eq!(maps.iter().filter(|x| x.get(&0).is_some()).collect::<Vec<_>>().len(), 1);
+        let end = start + range;
+        map.insert(start, Range { start, end, dst });
     }
 
+    // }}}
+    // {{{ check non-overlapping map
+
+    for map in &maps {
+        for (a, b) in map.values().tuple_windows() {
+            debug_assert!(a.end <= b.start, "overlapping map!");
+        }
+    }
+
+    // }}}
+    // {{{ fill identity ranges to get contiguous map to avoid all crappy cases
+
+    let mut maps2 = Vec::new();
+    for map in &maps {
+        let mut map2 = BTreeMap::new();
+        let first = map.iter().next().unwrap().1;
+        if first.start != 0 {
+            map2.insert(
+                0,
+                Range {
+                    start: 0,
+                    end: first.start,
+                    dst: 0,
+                },
+            );
+        }
+        for (a, b) in map.values().tuple_windows() {
+            map2.insert(a.start, *a);
+            if a.end != b.start {
+                map2.insert(
+                    a.end,
+                    Range {
+                        start: a.end,
+                        end: b.start,
+                        dst: a.end,
+                    },
+                );
+            }
+        }
+        let last = map.iter().rev().next().unwrap().1;
+        map2.insert(last.start, *last);
+        if last.end != i64::MAX {
+            map2.insert(
+                last.end,
+                Range {
+                    start: last.end,
+                    end: i64::MAX,
+                    dst: last.end,
+                },
+            );
+        }
+        maps2.push(map2);
+    }
+    let maps = maps2;
+
+    // }}}
+    // {{{ check contiguous map
+
+    for map in &maps {
+        for (a, b) in map.values().tuple_windows() {
+            debug_assert!(a.end == b.start, "overlapping map!");
+        }
+        debug_assert_eq!(
+            map.iter().next().unwrap().1.start,
+            0,
+            "map doesn't start at 0!"
+        );
+        debug_assert_eq!(
+            map.iter().rev().next().unwrap().1.end,
+            i64::MAX,
+            "map doesn't end at i64::MAX!"
+        );
+    }
+
+    // }}}
+
     if part == 1 {
-        let do_map = |seed| {
+        let do_map = |seed: i64| {
             let mut stuff = seed;
             for map in &maps {
-                if let Some((src, (dst, range))) = map.range(..=stuff).rev().next() {
-                    let off = stuff - src;
-                    if off >= 0 && off < *range {
-                        stuff = *dst + off
-                    }
-                } else {
-                    // untouched value
+                let (start, range) = map.range(..=stuff).rev().next().expect("no initial range");
+                assert!(*start <= stuff);
+                let off = stuff - range.start;
+                if off >= 0 && off < range.end - range.start {
+                    stuff = range.dst + off;
                 }
             }
             stuff
@@ -72,88 +149,74 @@ pub fn solve(part: u8, input: &'static str) -> Result<Solution, anyhow::Error> {
             .context("no seeds?")? as u64;
         Ok(Solution::U64(res))
     } else {
-        let do_map_and_min = |seed: i64, length: i64| {
-            let mut stuffs = vec![(seed, length)];
+        struct Span {
+            start: i64,
+            end: i64, // non inclusive
+        }
+        let do_map = |start: i64, depth: i64| {
+            let end = start + depth;
+            let mut spans = vec![Span { start, end }];
             let mut tmp = Vec::new();
+            let mut work = Vec::<Range>::new();
             for map in &maps {
-                let mut map = map.clone();
-                for (mut stuff, mut length) in &stuffs {
-                    dbg!(&map);
-                    let end = stuff + length;
-                    // split at 'stuff'
-                    dbg!(&stuff, length);
-                    if let Some((src, (dst, range))) = map.range(..=stuff).rev().next() {
-                        let (src, (dst, range)) = (*src, (*dst, *range));
-                        if src != stuff {
-                            debug_assert!(src < stuff);
-                            let off = stuff - src;
-                            if range > off {
-                                map.get_mut(&src).unwrap().1 = off;
-                                map.insert(stuff, (dst + off, range - off));
-                                dbg!(&map);
-                            }
-                        }
+                for span in &spans {
+                    work.clear();
+
+                    // initial range: lower bound or manually crafted
+                    let (start, range) = map
+                        .range(..=span.start)
+                        .rev()
+                        .next()
+                        .expect("no initial range");
+                    if *start < span.start {
+                        let off = span.start - range.start;
+                        work.push(Range {
+                            start: span.start,
+                            end: std::cmp::min(span.end, range.end),
+                            dst: range.dst + off,
+                        });
                     }
-                    // split at 'end'
-                    dbg!(&stuff, length);
-                    if let Some((src, (dst, range))) = map.range(..=end).rev().next() {
-                        let (src, (dst, range)) = (*src, (*dst, *range));
-                        if src != end {
-                            debug_assert!(src < end);
-                            let off = end - src;
-                            if range > off {
-                                map.get_mut(&src).unwrap().1 = off;
-                                map.insert(end, (dst + off, range - off));
-                                dbg!(&map);
-                            }
-                        }
+                    // process all remaining ranges
+                    for (start, range) in map.range((span.start)..(span.end)) {
+                        let start = *start;
+                        let end = std::cmp::min(span.end, range.end);
+                        let dst = range.dst;
+                        work.push(Range { start, end, dst });
+                    }
+                    // check contiguity
+                    for (a, b) in work.iter().tuple_windows() {
+                        debug_assert_eq!(a.end, b.start);
                     }
 
-                    for (mut src, (mut dst, mut range)) in map.range(stuff..end) {
-                        dbg!(src, range, dst);
-                        debug_assert!(*src >= stuff);
-                        // if *src < *stuff {
-                        //     let off = *stuff - *src;
-                        //     src = stuff;
-                        //     range -= off;
-                        //     dst -= off;
-                        // }
-                        if *src + range >= end {
-                            let off = end - range - *src;
-                            range -= off;
-                        }
-                        if length < range {
-                            let off = range - length;
-                            range -= off;
-                        }
-                        if length > range {
-                            let off = length - range;
-                            length -= off;
-                        }
-                        tmp.push((dst, range));
-                        length -= range;
-                        stuff += range;
-                    }
-                    if length > 0 {
-                        // untouched
-                        tmp.push((stuff + length, length));
-                    }
+                    // do the destination mapping operation and append onto our current results
+                    tmp.extend(work.iter().map(|range| {
+                        let start = range.dst;
+                        let end = range.dst + range.end - range.start;
+                        Span { start, end }
+                    }));
                 }
-                tmp.sort_by(|a, b| a.0.cmp(&b.0)); // reverse
-                std::mem::swap(&mut tmp, &mut stuffs);
-                dbg!(&stuffs);
+
+                tmp.sort_by(|a, b| a.start.cmp(&b.start));
+                // check non overlapping
+                for (a, b) in tmp.iter().tuple_windows() {
+                    debug_assert!(a.end <= b.start, "overlapping tmp!");
+                }
+                // TODO optimization: coalescing
+
+                std::mem::swap(&mut tmp, &mut spans);
                 tmp.clear();
             }
-            stuffs.iter().map(|(x, _)| *x).min().expect("no ranges")
+            // return the min
+            spans[0].start
         };
+
         // seeds are pairs
         let res = seeds
             .iter()
             .tuples()
-            .map(|(seed, length)| do_map_and_min(*seed, *length))
+            .map(|(seed, length)| do_map(*seed, *length))
             .min()
             .unwrap();
-        dbg!(res);
 
         Ok(Solution::U64(res as u64))
     }

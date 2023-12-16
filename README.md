@@ -45,6 +45,7 @@ propagate counters
 ## [Day 05: If You Give A Seed A Fertilizer](https://adventofcode.com/2023/day/5)
 
 ranges…
+part 2 (on 16th december): proper struct and ensure contiguous ranges to reduce complexity.
 
 [Code](./src/solutions/day05.rs)
 
