@@ -118,3 +118,10 @@ basic path computation with position caching to avoid double path.
 use of enumset crate for easy bitset.
 
 [Code](./src/solutions/day16.rs)
+
+## [Day 17: Clumsy Crucible](https://adventofcode.com/2023/day/17)
+
+A* failed due to heuristic (no clear convergence with mixed distance / heat) so return to simple
+Dijkstra in 4D (x/y/direction/line lenght), as duration didn't explode (150ms).
+
+[Code](./src/solutions/day17.rs)

@@ -17,7 +17,7 @@ pub mod day13;
 pub mod day14;
 pub mod day15;
 pub mod day16;
-// pub mod day17;
+pub mod day17;
 // pub mod day18;
 // pub mod day19;
 // pub mod day20;
@@ -45,7 +45,7 @@ pub fn solve(day: Day, part: u8, input: &'static str) -> Result<Solution, Error>
         14 => day14::solve(part, input),
         15 => day15::solve(part, input),
         16 => day16::solve(part, input),
-        // 17 => day17::solve(part, input),
+        17 => day17::solve(part, input),
         // 18 => day18::solve(part, input),
         // 19 => day19::solve(part, input),
         // 20 => day20::solve(part, input),
