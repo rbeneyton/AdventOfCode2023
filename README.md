@@ -125,3 +125,10 @@ A* failed due to heuristic (no clear convergence with mixed distance / heat) so 
 Dijkstra in 4D (x/y/direction/line lenght), as duration didn't explode (150ms).
 
 [Code](./src/solutions/day17.rs)
+
+## [Day 18: Lavaduct Lagoon](https://adventofcode.com/2023/day/18)
+
+simple zone filling.
+part2 requires coordinates mapping (not elegant but works).
+
+[Code](./src/solutions/day18.rs)
