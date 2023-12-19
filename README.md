@@ -132,3 +132,9 @@ simple zone filling.
 part2 requires coordinates mapping (not elegant but works).
 
 [Code](./src/solutions/day18.rs)
+
+## [Day 19: Aplenty](https://adventofcode.com/2023/day/19)
+
+parsing + play with rules & ranges
+
+[Code](./src/solutions/day19.rs)
