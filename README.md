@@ -138,3 +138,11 @@ part2 requires coordinates mapping (not elegant but works).
 parsing + play with rules & ranges
 
 [Code](./src/solutions/day19.rs)
+
+## [Day 20: Pulse Propagation](https://adventofcode.com/2023/day/20)
+
+basic logoc gate, easy to code using enums.
+part2 is usual cycle detection (and yes I tested brute force first hoping optimized code will
+be enough).
+
+[Code](./src/solutions/day20.rs)
