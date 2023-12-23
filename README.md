@@ -146,3 +146,7 @@ part2 is usual cycle detection (and yes I tested brute force first hoping optimi
 be enough).
 
 [Code](./src/solutions/day20.rs)
+
+## [Day 21: Step Counter](https://adventofcode.com/2023/day/21)
+
+[Code](./src/solutions/day21.rs)
