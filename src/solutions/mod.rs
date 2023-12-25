@@ -25,7 +25,7 @@ pub mod day21;
 // pub mod day22;
 // pub mod day23;
 // pub mod day24;
-// pub mod day25;
+pub mod day25;
 
 pub fn solve(day: Day, part: u8, input: &'static str) -> Result<Solution, Error> {
     match day {
@@ -53,7 +53,7 @@ pub fn solve(day: Day, part: u8, input: &'static str) -> Result<Solution, Error>
         // 22 => day22::solve(part, input),
         // 23 => day23::solve(part, input),
         // 24 => day24::solve(part, input),
-        // 25 => day25::solve(part, input),
+        25 => day25::solve(part, input),
         _ => bail!("day no yet implemented"),
     }
 }

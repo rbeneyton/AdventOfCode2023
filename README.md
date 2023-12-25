@@ -150,3 +150,9 @@ be enough).
 ## [Day 21: Step Counter](https://adventofcode.com/2023/day/21)
 
 [Code](./src/solutions/day21.rs)
+## [Day 25: Snowverload](https://adventofcode.com/2023/day/25)
+
+graph traversal, compute steps importance to measure weaken links.
+not (yet) part2
+
+[Code](./src/solutions/day25.rs)
